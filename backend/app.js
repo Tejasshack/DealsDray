@@ -20,7 +20,7 @@ app.use("/api/employee", employeRoutes);
 
 // DATABASE CONNECTION
 const MONGOURL =
-  "mongodb+srv://tejaswi:PaxIn1e1FNahdWt7@cluster0.yzlld.mongodb.net/dealsDray?retryWrites=true&w=majority&appName=Cluster0";
+  "";
 
 mongoose
   .connect(MONGOURL)
