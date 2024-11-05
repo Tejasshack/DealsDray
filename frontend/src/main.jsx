@@ -1,27 +1,25 @@
 import React from "react";
-import ReactDOM from "react-dom/client"; // Import ReactDOM
+import ReactDOM from "react-dom/client";
 import { StrictMode } from "react";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
 import ErrorPage from "./error-page.jsx";
-import CreateEmployee from "./components/CreateEmploye.jsx";
+import CreateEmploye from "./components/CreateEmploye.jsx";
 import Dashboard from "./components/Dashboard.jsx";
+import EditEmploye from "./pages/EditEmploye.jsx";
 
-// Define your routes
+// Define routes
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "/create-employe",
-    element: <CreateEmployee />,
-  },
-  {
-    path: "/",
-    element: <Dashboard />,
+    children: [
+      { path: "/", element: <Dashboard /> },
+      { path: "create-employee", element: <CreateEmploye /> },
+      { path: "edit-employee/:id", element: <EditEmploye /> },
+    ],
   },
 ]);
 
