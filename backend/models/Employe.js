@@ -5,10 +5,12 @@ const employeeCreateSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      
     },
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     mobilenumber: {
       type: Number,

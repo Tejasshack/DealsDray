@@ -23,13 +23,7 @@ app.use("/api/employee", employeRoutes);
 app.use("/api/auth", authRoutes);
 
 // DATABASE CONNECTION
-<<<<<<< HEAD
 // console.log(process.env.MONGOURL);
-=======
-const MONGOURL =
-  "";
-
->>>>>>> e3cb77983deb64427f2cf4722c4f803090703fab
 mongoose
   .connect(process.env.MONGOURL)
   .then(() => console.log("Connected to MongoDB"))
@@ -39,13 +33,13 @@ app.get("/", (req, res) => {
   res.send("<h1>Hello World</h1>");
 });
 
-// // Insert dummy user data
+// Insert dummy user data // or add user to test the platform
 // const insertDummyUser = async () => {
-//   try {
-//     // Create a hashed password
+  // try {
+    // Create a hashed password
 //     const hashedPassword = await bcrypt.hash("password123", 10);
 
-//     // Insert the user data
+    // Insert the user data
 //     const newUser = new User({
 //       name: "adminUser",
 //       password: hashedPassword,
@@ -57,8 +51,7 @@ app.get("/", (req, res) => {
 //     console.error("Error inserting dummy data:", error);
 //   }
 // };
-
-// // Insert dummy data after the server starts
+// Insert dummy data after the server starts
 // insertDummyUser();
 
 app.listen(port, () => {

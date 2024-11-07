@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import axios
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirect
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../public/LoginPage.css";
 
 const LoginPage = () => {
@@ -11,7 +13,6 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //  console.log(username, password);
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/login",
@@ -21,12 +22,15 @@ const LoginPage = () => {
         }
       );
 
-      // Save the token and redirect to the dashboard
+      
       localStorage.setItem("token", response.data.token);
-      navigate("/"); // Redirect using useNavigate
+      toast.success("Login successful! Redirecting...");
+      setTimeout(() => {
+        navigate("/"); 
+      }, 2000);
     } catch (error) {
       console.error(error);
-      // You can also display an error message to the user if login fails
+      toast.error("Login failed Invalid Credentials.");
     }
   };
 
@@ -72,7 +76,7 @@ const LoginPage = () => {
     setPassword(event.target.value);
   };
 
-  // Set theme dynamically based on the selected theme
+
   const setTheme = (index) => {
     setThemeIndex(index);
     const theme = themes[index];
@@ -84,6 +88,7 @@ const LoginPage = () => {
 
   return (
     <div className="container">
+      <ToastContainer stacked position="top-center" autoClose={2000} />
       <div className="login-container">
         <div className="circle circle-one"></div>
         <div className="circle circle-two"></div>

@@ -1,35 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import EmployeList from "../pages/EmployeList";
-import "../public/Dashboard.css"; // You can add this file for custom styling
+
+import React, { useState, useEffect } from "react";
+import Navbar from "../components/Navbar";
+import "../public/Dashboard.css";
 
 const Dashboard = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showEmployeeList, setShowEmployeeList] = useState(false); 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+
   return (
     <div className="dashboard-container">
-      <nav className="navbar">
-        <div className="navbar-left">
-          <Link to="/" className="navbar-brand">
-            Home
-          </Link>
-          <Link to="/employee-list" className="navbar-link">
-            Employee List
-          </Link>
-          <Link to="/create-employee" className="navbar-link">
-            Create Employee
-          </Link>
-        </div>
-        <div className="navbar-right">
-          <Link to="/login" className="navbar-button">
-            Login
-          </Link>
-        </div>
-      </nav>
+      <Navbar
+        isLoggedIn={isLoggedIn}
+        onLogout={handleLogout}
+        onSearch={setSearchTerm}
+      />
       <div className="dashboard-content">
         <h1 style={{ color: "black" }}>Welcome to the Employee Dashboard</h1>
-        <EmployeList />
+        
+        {isLoggedIn && showEmployeeList && (
+          <EmployeList searchTerm={searchTerm} />
+        )}
       </div>
     </div>
   );
 };
-
+// 
 export default Dashboard;

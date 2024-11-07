@@ -1,5 +1,7 @@
 const Employe = require("../models/Employe");
 const mongoose = require("mongoose");
+
+// Fetch all employees
 const getAllEmploye = async (req, res) => {
   try {
     const employe = await Employe.find().sort({ createdAt: -1 });
@@ -10,8 +12,15 @@ const getAllEmploye = async (req, res) => {
   }
 };
 
+// Create a new employee
 const createAnEmploye = async (req, res) => {
   try {
+    // Handle image upload
+    const img = req.file; // The uploaded file
+    if (!img) {
+      return res.status(400).json({ message: "No file uploaded." });
+    }
+
     // Create a new employee using the data from the request body
     const newEmployee = new Employe({
       name: req.body.name,
@@ -20,7 +29,7 @@ const createAnEmploye = async (req, res) => {
       designation: req.body.designation,
       gender: req.body.gender,
       course: req.body.course,
-      imgupload: req.body.imgupload,
+      imgupload: img.path, // Store the file path in the database
     });
 
     // Save the new employee to the database
@@ -40,6 +49,7 @@ const createAnEmploye = async (req, res) => {
   }
 };
 
+// Get a specific employee by ID
 const getAnEmployee = async (req, res) => {
   try {
     const employeeId = req.params.id; // Get the employee ID from the URL parameter
@@ -59,18 +69,29 @@ const getAnEmployee = async (req, res) => {
   }
 };
 
+
 const editAnEmploye = async (req, res) => {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).send({ message: "Invalid ObjectId" });
     }
-    const updatedEmployee = await Employe.findByIdAndUpdate(id, req.body, {
+
+    // Handle image upload if there's a new image
+    let updateData = { ...req.body };
+    if (req.file) {
+      updateData.imgupload = req.file.path; // Update the file path in the database
+    }
+
+    // Find the employee and update their data
+    const updatedEmployee = await Employe.findByIdAndUpdate(id, updateData, {
       new: true,
     });
+
     if (!updatedEmployee) {
       return res.status(404).send({ message: "Employee not found!" });
     }
+
     res.status(200).send({
       message: "Employee updated successfully",
       employee: updatedEmployee,
@@ -81,29 +102,28 @@ const editAnEmploye = async (req, res) => {
   }
 };
 
-const deleteAnEmploye =
-  ("/employee/:id",
-  async (req, res) => {
-    try {
-      const employeeId = req.params.id;
+// Delete an employee by ID
+const deleteAnEmploye = async (req, res) => {
+  try {
+    const employeeId = req.params.id;
 
-      // Validate the ObjectId
-      if (!mongoose.Types.ObjectId.isValid(employeeId)) {
-        return res.status(400).json({ message: "Invalid ObjectId" });
-      }
-
-      // Find and delete the employee
-      const employee = await Employe.findByIdAndDelete(employeeId);
-
-      if (!employee) {
-        return res.status(404).json({ message: "Employee not found" });
-      }
-
-      res.status(200).json({ message: "Employee deleted successfully" });
-    } catch (err) {
-      res.status(500).json({ message: "Error deleting employee", error: err });
+    // Validate the ObjectId
+    if (!mongoose.Types.ObjectId.isValid(employeeId)) {
+      return res.status(400).json({ message: "Invalid ObjectId" });
     }
-  });
+
+    // Find and delete the employee
+    const employee = await Employe.findByIdAndDelete(employeeId);
+
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    res.status(200).json({ message: "Employee deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting employee", error: err });
+  }
+};
 
 module.exports = {
   getAllEmploye,
