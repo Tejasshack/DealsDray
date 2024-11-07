@@ -23,7 +23,13 @@ app.use("/api/employee", employeRoutes);
 app.use("/api/auth", authRoutes);
 
 // DATABASE CONNECTION
+<<<<<<< HEAD
 // console.log(process.env.MONGOURL);
+=======
+const MONGOURL =
+  "";
+
+>>>>>>> e3cb77983deb64427f2cf4722c4f803090703fab
 mongoose
   .connect(process.env.MONGOURL)
   .then(() => console.log("Connected to MongoDB"))
