@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Importing styles for the toast
+import "../public/CreateEmployee.css";
 
 const CreateEmployee = () => {
   // State to hold form data
@@ -11,11 +14,9 @@ const CreateEmployee = () => {
     gender: "",
     course: "",
     imgupload: "",
-    serialNumber: "",
   });
 
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -26,15 +27,44 @@ const CreateEmployee = () => {
     });
   };
 
+  // Form validation function
+  const validateForm = () => {
+    if (employee.name.length < 3) {
+      return "Name should be at least 3 characters long.";
+    }
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(employee.email)) {
+      return "Please enter a valid email address.";
+    }
+    if (!/^\d{10}$/.test(employee.mobilenumber)) {
+      return "Please enter a valid 10-digit mobile number.";
+    }
+    if (!employee.course) {
+      return "Course cannot be empty.";
+    }
+    if (!/^https?:\/\/[^\s$.?#].[^\s]*$/.test(employee.imgupload)) {
+      return "Please enter a valid image URL.";
+    }
+    return null; // No error
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate the form before submission
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      toast.error(validationError);  // Show error toast
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:5000/api/employee/create-employee", // Ensure the endpoint is correct
         employee
       );
-      setSuccess("Employee created successfully!");
+      toast.success("Employee created successfully!");  // Show success toast
       setError(null);
       // Optionally reset the form
       setEmployee({
@@ -45,12 +75,12 @@ const CreateEmployee = () => {
         gender: "",
         course: "",
         imgupload: "",
-        serialNumber: "", // Reset serial number
       });
     } catch (err) {
       console.error(err); // Log full error for debugging
-      setError(err.response?.data?.message || "Error creating employee");
-      setSuccess(null);
+      const errorMessage = err.response?.data?.message || "Error creating employee";
+      setError(errorMessage);
+      toast.error(errorMessage);  // Show error toast
     }
   };
 
@@ -58,7 +88,6 @@ const CreateEmployee = () => {
     <div>
       <h2>Create Employee</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-control">
           <label htmlFor="name">Name</label>
@@ -69,6 +98,7 @@ const CreateEmployee = () => {
             value={employee.name}
             onChange={handleInputChange}
             required
+            placeholder="YourName"
           />
         </div>
 
@@ -81,6 +111,7 @@ const CreateEmployee = () => {
             value={employee.email}
             onChange={handleInputChange}
             required
+            placeholder="name12@gmail.com"
           />
         </div>
 
@@ -93,6 +124,8 @@ const CreateEmployee = () => {
             value={employee.mobilenumber}
             onChange={handleInputChange}
             required
+            pattern="^\d{10}$"
+            placeholder="1234567890"
           />
         </div>
 
@@ -145,18 +178,7 @@ const CreateEmployee = () => {
             value={employee.imgupload}
             onChange={handleInputChange}
             required
-          />
-        </div>
-
-        <div className="form-control">
-          <label htmlFor="serialNumber">Serial Number</label>
-          <input
-            type="text"
-            name="serialNumber"
-            id="serialNumber"
-            value={employee.serialNumber}
-            onChange={handleInputChange}
-            required
+            placeholder="Image URL"
           />
         </div>
 

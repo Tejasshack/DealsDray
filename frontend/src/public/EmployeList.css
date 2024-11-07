@@ -1,0 +1,63 @@
+/* Styling for the employee list table */
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.employee-table th,
+.employee-table td {
+    border: 1px solid #ddd;
+    padding: 12px 18px;
+    text-align: left;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Header styling */
+.employee-table th {
+    background-color: #f4f6f9;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Row styling */
+.employee-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.employee-table tr:hover {
+    background-color: #ecf0f1; /* Light gray on hover */
+}
+
+.employee-table td img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Button Styling */
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button:active {
+    background-color: #1f65a0;
+}
+
+button:focus {
+    outline: none;
+}

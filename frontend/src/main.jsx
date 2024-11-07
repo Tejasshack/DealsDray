@@ -8,6 +8,8 @@ import ErrorPage from "./error-page.jsx";
 import CreateEmploye from "./components/CreateEmploye.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import EditEmploye from "./pages/EditEmploye.jsx";
+import LoginPage from "./components/LoginPage.jsx";
+import { ToastContainer } from "react-toastify";
 
 // Define routes
 const router = createBrowserRouter([
@@ -17,8 +19,10 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Dashboard /> },
+      { path: "/", element: <ToastContainer /> },
       { path: "create-employee", element: <CreateEmploye /> },
       { path: "edit-employee/:id", element: <EditEmploye /> },
+      { path: "login", element: <LoginPage /> },
     ],
   },
 ]);

@@ -30,14 +30,6 @@ const employeeCreateSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    serialNumber: {
-      type: String,
-      required: true,
-      unique: true, // Ensure serial number is unique
-      default: function () {
-        return 'EMP' + Math.floor(Math.random() * 1000000); // Auto-generate serial number
-      },
-    },
   },
   {
     timestamps: true,

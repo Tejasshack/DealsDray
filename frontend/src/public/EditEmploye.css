@@ -1,0 +1,93 @@
+/* Basic styling for the form container */
+form {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for form elements */
+div {
+    margin-bottom: 20px;
+}
+
+/* Labels for inputs */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+/* Styling for input fields and select dropdown */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* Focus styles for inputs */
+input:focus,
+select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Button Styling */
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button:active {
+    background-color: #1f65a0;
+}
+
+/* Error and Loading Message Styling */
+p {
+    color: #e74c3c;
+    font-size: 16px;
+    text-align: center;
+}
+
+p.loading {
+    color: #3498db;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 600px) {
+    form {
+        padding: 20px;
+    }
+
+    button {
+        font-size: 16px;
+    }
+
+    label,
+    input,
+    select {
+        font-size: 16px;
+    }
+}
